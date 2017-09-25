@@ -78,19 +78,18 @@ int copy_veg_lib_record(const veg_lib_struct &from_veg, veg_lib_struct &to_veg)
 }
 //______________________________________________________________________________
 bool find_irrigation_type(const Irrigation_Types_In_Each_Cell &irrig_lib,
-                          const int crop_code, Irrigation_Type &irrigation_type, bool &full_irrigation)
+                          const int crop_code, Irrigation_Type &irrigation_type,
+                          bool &full_irrigation)
 {
   //160609LML may need optimize later!
-  bool found = false;
   for (int i = 0; i < MAX_NUM_CROP_TYPES_FOR_IRRIGATION_DEFINE; i++) {
     if (crop_code == irrig_lib.crop_code[i]) {
-      found = true;
       irrigation_type = irrig_lib.irrigation_type[i];
       full_irrigation = irrig_lib.full_irrigation[i];
-      return found;
+      return true;
     }
   }
-  return found;
+  return false;
 }
 //150929LML_____________________________________________________________________
 int set_average_veglib_for_crop(veg_lib_struct &veglib,
@@ -172,6 +171,7 @@ void copy_and_split_veg_con_element(const veg_con_struct &from,
     }
 }
 #endif //VIC_CROPSYST_VERSION>=3
+/*170901LML
 #ifndef USE_SIMPLIFIED_IRRIGATION_TYPES
 double evaporation_from_irrigation_systems(
                                            double ET0,
@@ -229,10 +229,11 @@ double evaporation_from_irrigation_systems(
         Ed = ET0_open_water; //it's just a fixed number and later we can define it for diferent irrigation systems
     }
     //printf("Ed(%.5f)\tAp(%.5f)\ttime_of_irrig(%.5f)\n",Ed,Ap,time_of_irrig);
-    return Ed * Ap * time_of_irrig / 24.0 / 3.0; /*LML 150501 I don't know where 3.0 come from.*/
+    return Ed * Ap * time_of_irrig / 24.0 / 3.0; //LML 150501 I don't know where 3.0 come from.
 
 };
 #endif
+*/
 
 double solve_penman_for_T(double Ts, va_list ap){
     double init_T;
@@ -342,7 +343,7 @@ void clear_cell_irrigation_water_fluxes(cell_data_struct *current_cell)
 {
   //Initialize water fluxes from current crop in current time step
     current_cell->VCS.evap_from_irrigation_syst      = 0;
-    current_cell->VCS.total_irrigation_water         = 0;
+    current_cell->VCS.irrigation_water         = 0;
     current_cell->VCS.actual_irrigation_reach_ground_amount = 0;                     //150714LML
     current_cell->VCS.irrigation_runoff              = 0;
     current_cell->VCS.intercepted_irrigation         = 0;
@@ -384,7 +385,7 @@ int set_output_for_crop_numbers(out_data_struct *out_data,const int numcrops)
     out_data[OUT_CANOPY_FRACT].nelem        = numcrops; //130709 keyvan
     out_data[OUT_DEL_T].nelem               = numcrops;
     out_data[OUT_DEL_VPD].nelem             = numcrops;
-    out_data[OUT_IRRIGATION].nelem          = numcrops;                          //150930LML
+    //170924LML out_data[OUT_IRRIGATION].nelem          = numcrops;                          //150930LML
     return numcrops;
 }
 /*150710LML                                                                   */
@@ -478,7 +479,7 @@ void print_state_flux_specific_veg_band(int dist,
       bool active_crop = CropSyst_crop ? true : false;
       double total_transpiration = 0.0;
       double total_transpiration_daily_from_CropSyst = 0.0;
-      double profile_moisture   = get_total_soil_moisture(*cell);
+      double profile_moisture   = get_total_soil_moisture(*cell.layer);
       double profile_thickness  = get_total_soil_thickness_mm(*soil);
       double profile_vwc        = profile_moisture / profile_thickness;
       for (int i = 0; i < options.Nlayer; i++) {

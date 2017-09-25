@@ -47,7 +47,37 @@ bool IsRotationWithMultipleCycles(int veg_class_code_in_veg_con_file);          
 void DecomposeVegclassCode(int veg_class_code_runtime,
                            int &rotation_or_crop_veg_class_code,
                            int &rotation_cycle_index);                           //LML 150526
-double evaporation_from_irrigation_systems(double ET0, double ET0_open_water, int irrigation_index, double crop_h = 0.5);
+//double evaporation_from_irrigation_systems(double ET0, double ET0_open_water, int irrigation_index, double crop_h = 0.5);
+#ifdef MECHANISTIC_IRRIGATION
+double evaporation_from_irrigation_systems(
+        int irrigation_index,
+    #ifdef ED_PLAYAN
+        double wind,
+        double air_temp,
+        double rhum,
+    #else
+        double irrigation_amount,
+        double ET0,
+        double ET0_open_water,
+        double crop_h,
+        const soil_con_struct& soil_con,
+        bool isPerennial
+    #endif
+        );
+#endif
+bool is_surface_irrigation(const General_Irrigation_Type girrig_type);
+double calc_Maximum_sorptivity(double sand, double clay, double porosity,
+                               double b_campbell);
+double calc_infiltration_capacity(const double s_philip
+  ,const double irrig_time, const double ks);
+double calc_runoff_from_center_pivot(const double irrigation_amount_mm,
+  const double sprinkler_diameter, const double ks,
+  const double s_philip, const double time_of_rotattion);
+double calc_irrigation_runoff(const int irrigation_index,
+    const double irrigation_amount_mm,
+    const double soil_toplayer_moist_mm,
+    const double max_allowable_deficit,
+    const soil_con_struct& soil_con);
 void clear_cell_irrigation_water_fluxes(cell_data_struct *current_cell);         //150702LML
 int iscrop(int veg_class);
 CO2_conc_struct *read_CO2_conc(FILE *);
@@ -64,6 +94,8 @@ int get_current_veg_type(const int veg_class, const dmy_struct *dmy);    //LML 1
 int get_crop_counter(const veg_con_struct *veg_con, const int target_cropping_code);
 int get_veg_lib_index(const int veg_class_code);
 void free_cropcodelib(CropCodeLib **);
+void set_irrigation_efficiency_of_irrigation_library(const int management_factor);
+General_Irrigation_Type identify_general_irrigation_type(const Irrigation_Type irrigation);
 
 #ifdef USE_IRRIGATION_PARAM_FILE
 void read_irrigparam(FILE *irrigparam, const int gridcel, Irrigation_Types_In_Each_Cell &irrigation_list);

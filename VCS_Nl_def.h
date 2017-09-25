@@ -66,11 +66,12 @@
 #define OUT_CANOPY_FRACT        190                                              //*canopy interception_fraction from CropSyst                                         *
 #define OUT_DEL_T               191                                              //*keyvan added to store new T in an irrigated field                                  *
 #define OUT_DEL_VPD             192                                              //*keyvan added to store new VPD in an irrigated field                                *
-#define OUT_IRRIGATION          193                                              //*150930lml stores total amount of irrigation water                                  *
-#define OUT_CELL_EVAP_FROM_IRRIG    194                                          //*150930LML Evaporation from irrigation systems mm                                   *
-#define OUT_CELL_EVAP_CANOP_IRRIG   195                                          //*150930LML Evaporation from the IRRIGATION water which is intercepted by canopy mm  *
-#define OUT_CELL_RUNOFF_IRRIG       196                                          //*150930LML Irrigation runoff mm                                                     *
-#define OUT_CELL_IRRIGATION         197                                          //*150930LML 150930lml stores total amount of irrigation water                        *
+#define OUT_IRRIG_INTERCEPTION  193                                              //170924LML intercepted irrigation by canopy
+//170924LML #define OUT_IRRIGATION          193                                              //*150930lml stores total amount of irrigation water                                  *
+//170924LML #define OUT_CELL_EVAP_FROM_IRRIG    194                                          //*150930LML Evaporation from irrigation systems mm                                   *
+//170924LML #define OUT_CELL_EVAP_CANOP_IRRIG   195                                          //*150930LML Evaporation from the IRRIGATION water which is intercepted by canopy mm  *
+//170924LML #define OUT_CELL_RUNOFF_IRRIG       196                                          //*150930LML Irrigation runoff mm                                                     *
+//170924LML #define OUT_CELL_IRRIGATION         197                                          //*150930LML 150930lml stores total amount of irrigation water                        *
 
 typedef struct {
   FILE *cropparam;                                                               //*Crop fractional coverage plus anyother paramter(s) for grid cell.  KJC 02102011 *
@@ -116,6 +117,7 @@ typedef struct {
     int CO2_Nyear;                                                                 //*number of years in CO2 file Keyvan 130605*
     char CO2_trans;                                                                //*to check if CO2 is constant ro transient*
     char clay_input;                                                               //*TRUE means clay percentage should be provided at the end of soil file*
+    bool do_irrigate_crop;                                                         //170923LML if true, irrigation is conducted over irrigated area; otherwise, always no irrigation
     #if (VIC_CROPSYST_VERSION>=3)
     int NR;                                                                        //* array index for atmos struct that indicates
                                                                                    //the model step avarage or sum *
@@ -155,6 +157,7 @@ typedef struct {
   double   AE[MAX_LAYERS];                                                       //* Air entry potential*
   double   silt[MAX_LAYERS];                                                     //* silt content*
 #if (VIC_CROPSYST_VERSION>=3)
+  double   S_max;                                                                //Maximum_sorptivity
   double   water_pot_at_FC[MAX_LAYERS];                                          //(J/kg or kPa) 170504LML
   int CropSyst_Soil_ID;                                                          //* for CropSyst soil properties LML 141104*
   Irrigation_Types_In_Each_Cell irrigation_type_list;                            //160609LML
@@ -192,8 +195,8 @@ typedef struct {
 
 typedef struct {
   double actual_irrigation_reach_ground_amount;                                  //(mm) *this stores the amount of calculated irrigation requirement and apply it after the seperation of the runoff-keyvan NOV2012
-                                                                               //LML 150415 it's net irrigated water after loss through evaporation, canopy interception, and direct runoff
-  double total_irrigation_water;                                                 //LML 150415 it's total amount of irrigation
+                                                                                 //LML 150415 it's net irrigated water after loss through evaporation, canopy interception, and direct runoff
+  //double xxxtotal_irrigation_water;                                                 //LML 150415 it's total amount of irrigation
   double irrigation_runoff;
   double evap_from_irrigation_syst;                                              //LML note: from water drops or surface flow, not including canopy evaporation
   double evap_from_irrigation_intercept;                                         //160509LML note: directly used for canopy evaporation demand (not for interception)
@@ -202,7 +205,7 @@ typedef struct {
   double intercepted_irrigation;                                                 //Irrigation for feeding the Wdmax before and after irrigation, and canopy evaporation demand
   double potential_transpir;                                                     //crop potential transpiration 150702LML
   double infiltration;                                                           //*the amount of water that gets into the top layer.  Used to inform the crop
-                                                                               //crop model waht is getting into the water.  Added by Kiran Chinnayakanahalli 11222010*
+                                                                                 //crop model waht is getting into the water.  Added by Kiran Chinnayakanahalli 11222010*
   double irrigation_water;                                                       //*the amount of water added as irrigation water.  KJC 03312011 *
   double aero_resist_daily[N_PET_TYPES][3];                                      //150608LML for CropSyst
   double pot_evap_daily[N_PET_TYPES];                                            //*150608LML array of different types of potential evaporation (mm/day) *
