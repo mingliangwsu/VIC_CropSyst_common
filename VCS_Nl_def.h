@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "irrigation_lib.h"
 #ifndef MAXSTRING
-#define MAXSTRING 1024
+#define MAXSTRING 2048
 #endif
 #ifndef MAX_LAYERS
 #define MAX_LAYERS 17
