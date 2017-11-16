@@ -184,6 +184,7 @@ typedef struct {
   double tmax;                                                                   //* max air temperature (C) * //keyvan NOV 2012 130219 RLN
   double tmin;                                                                   //* min air temperature (C) * //keyvan NOV 2012 130219 RLN
   double *relative_humidity;                                                     //*relative humidity. Percentage*
+  double *sph;                                                                   //specific humidity [kg/kg]
   double relative_humidity_min;                                                  //*daily minimum relative humidity. Percentage*
   double relative_humidity_max;                                                  //*daily maximum relative humidity. Percentage*
 } VCS_atmos_data_struct;
