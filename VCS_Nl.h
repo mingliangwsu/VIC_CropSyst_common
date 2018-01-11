@@ -68,6 +68,7 @@ double evaporation_from_irrigation_systems(
 bool is_surface_irrigation(const General_Irrigation_Type girrig_type);
 double calc_Maximum_sorptivity(double sand, double clay, double porosity,
                                double b_campbell);
+int closest_layer_at(const soil_con_struct &soil_con, float64 a_given_depth);
 double calc_infiltration_capacity(const double s_philip
   ,const double irrig_time, const double ks);
 double calc_runoff_from_center_pivot(const double irrigation_amount_mm,
