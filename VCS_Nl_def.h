@@ -207,6 +207,7 @@ typedef struct {
   double potential_transpir;                                                     //crop potential transpiration 150702LML
   double infiltration;                                                           //*the amount of water that gets into the top layer.  Used to inform the crop
                                                                                  //crop model waht is getting into the water.  Added by Kiran Chinnayakanahalli 11222010*
+  double irrigation_netdemand;                                                   //(mm) net irrigation demand
   double irrigation_water;                                                       //*the amount of water added as irrigation water.  KJC 03312011 *
   double aero_resist_daily[N_PET_TYPES][3];                                      //150608LML for CropSyst
   double pot_evap_daily[N_PET_TYPES];                                            //*150608LML array of different types of potential evaporation (mm/day) *
@@ -267,6 +268,7 @@ typedef struct crop_data_struct {
   float evaporation;                                                             //*evaporation from the top soil (0th layer) in mm. *
   float canopy_evap;                                                             //mm/dt 150630LML
   unsigned long int CropSystHandle;                                              //*CropSystHandle, one for each crop grown *
+  float irrigation_netdemand;                                                    //(mm) net irrigation water demand 180327LML
   float irrigation_water;                                                        //* if inflow < refill_water_depth, = (refill_water_depth-precipitaion)/irrigation efficiency, mm *
                                                                                  //LML 150415 it's total amount of irrigation
   float irrigation_evap;                                                         //*stores evaporation from irrigation systems- Oct-1-2012 Keyvan LML note: from water drops or surface flow*
