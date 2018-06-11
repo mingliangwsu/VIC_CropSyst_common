@@ -346,6 +346,7 @@ void clear_cell_irrigation_water_fluxes(cell_data_struct *current_cell)
     current_cell->VCS.irrigation_netdemand = 0.0;
     current_cell->VCS.irrigation_water         = 0;
     current_cell->VCS.actual_irrigation_reach_ground_amount = 0;                     //150714LML
+    current_cell->VCS.deep_percolation_from_irrigation = 0;                      //180531LML
     current_cell->VCS.irrigation_runoff              = 0;
     current_cell->VCS.intercepted_irrigation         = 0;
     current_cell->VCS.evap_from_irrigation_intercept = 0;

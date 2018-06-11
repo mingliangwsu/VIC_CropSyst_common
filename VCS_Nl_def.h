@@ -197,6 +197,7 @@ typedef struct {
 typedef struct {
   double actual_irrigation_reach_ground_amount;                                  //(mm) *this stores the amount of calculated irrigation requirement and apply it after the seperation of the runoff-keyvan NOV2012
                                                                                  //LML 150415 it's net irrigated water after loss through evaporation, canopy interception, and direct runoff
+  double deep_percolation_from_irrigation;                                       //(mm) 180531
   //double xxxtotal_irrigation_water;                                                 //LML 150415 it's total amount of irrigation
   double irrigation_runoff;
   double evap_from_irrigation_syst;                                              //LML note: from water drops or surface flow, not including canopy evaporation
@@ -352,6 +353,6 @@ typedef struct {
 typedef struct {
     char cropname[MAXSTRING];
     int code;
-}CropCodeLib;
+} CropCodeLib;
 #endif
 #endif
