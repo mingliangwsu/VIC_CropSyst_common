@@ -121,7 +121,7 @@ int set_average_veglib_for_crop(veg_lib_struct &veglib,
           VIC_land_unit_activate(current_crop->CropSystHandle);                  //151001LML time consuming!!!
           double mu = (dist == WET ? prcp->mu[veg_index] : (1.0 - prcp->mu[veg_index]));
           double snow_zone_frac = soil_con->AreaFract[band];
-          veglib.LAI[current_month]            += mu * snow_zone_frac * VIC_land_unit_get(VIC::LAI);
+          veglib.LAI[current_month]            += mu * snow_zone_frac * VIC_land_unit_get(VIC::GAI); //180619LML replaced from LAI
           veglib.albedo[current_month]         += mu * snow_zone_frac * VIC_land_unit_get(VIC::CANOPY_ALBEDO);
           veglib.displacement[current_month]   += mu * snow_zone_frac * VIC_land_unit_get(VIC::DSPLACEMENT);
           veglib.roughness[current_month]      += mu * snow_zone_frac * VIC_land_unit_get(VIC::ROUGHNESS);
