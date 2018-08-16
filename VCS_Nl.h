@@ -75,9 +75,9 @@ double calc_runoff_from_center_pivot(const double irrigation_amount_mm,
   const double sprinkler_diameter, const double ks,
   const double s_philip, const double time_of_rotattion);
 double calc_irrigation_runoff(const int irrigation_index,
-    const double irrigation_amount_mm,
-    const double soil_toplayer_moist_mm,
-    const double max_allowable_deficit,
+    /*const*/ double irrigation_amount_mm,
+    /*const*/ double soil_toplayer_moist_mm,
+    /*const*/ double max_allowable_deficit,
     const soil_con_struct& soil_con);
 void clear_cell_irrigation_water_fluxes(cell_data_struct *current_cell);         //150702LML
 int iscrop(int veg_class);
