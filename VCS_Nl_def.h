@@ -166,6 +166,7 @@ typedef struct {
 #if (VIC_CROPSYST_VERSION>=3)
   double   S_max;                                                                //Maximum_sorptivity
   double   water_pot_at_FC[MAX_LAYERS];                                          //(J/kg or kPa) 170504LML
+  double   Field_Capacity[MAX_LAYERS];                                           //(mm) 190806LML
   int CropSyst_Soil_ID;                                                          //* for CropSyst soil properties LML 141104*
   Irrigation_Types_In_Each_Cell irrigation_type_list;                            //160609LML
 #endif
