@@ -185,6 +185,7 @@ typedef struct {
                                                                                  //* It's also the code including crop rotation cycle infomation *
   #if VIC_CROPSYST_VERSION>=3
   veg_lib_struct **veg_lib;                                                      //* 151001LML for each band. It's pointer array.*
+  bool this_year_start_irrigated;                                                //190918LML check if this crop has the first irrigation or not
   #endif
 } VCS_veg_con_struct;
 
