@@ -5,7 +5,8 @@
 #ifdef VCS_V5
 #include "vic_driver_classic.h"
 #endif
-extern CORN::Date_32_clad global_today;
+//200827RLN extern CORN::Date_clad_32 global_today;
+extern CORN::Date_clad_32 global_simdate;
 extern int global_rec;
 extern filenames_struct filenames;
 #if (VIC_CROPSYST_VERSION==2)

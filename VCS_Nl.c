@@ -75,6 +75,7 @@ int copy_veg_lib_record(const veg_lib_struct &from_veg, veg_lib_struct &to_veg)
     to_veg.emissivity[mon]  = from_veg.emissivity[mon]  ;
     to_veg.roughness[mon]   = from_veg.roughness[mon]   ;
   }
+  return 1;
 }
 //______________________________________________________________________________
 bool find_irrigation_type(const Irrigation_Types_In_Each_Cell &irrig_lib,
@@ -137,6 +138,7 @@ int set_average_veglib_for_crop(veg_lib_struct &veglib,
         }
       } //band
     } //dist
+    return 1;
 }
 /*LML 150427__________________________________________________________________*/
 void copy_and_split_veg_con_element(const veg_con_struct &from,
